@@ -17,19 +17,36 @@ const client = new Client({
 const rest = new REST({ version: '10'}).setToken(TOKEN);
 
 client.on('ready', () => console.log(`${client.user.displayName} has logged in`));
+client.on('messageCreate', (message) => {
+  const text = message.content.toLowerCase();
+  console.log(text);
+  if(text.includes('misericordia')) message.reply('Misericordinha (filho dele)');
+  if(text.includes('teste')) message.reply('testado');
+});
+
 client.on('interactionCreate', async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
 
-  if(interaction.commandName === "ping") {
-    await interaction.reply({content:'Pong!'});
+  if(interaction.commandName === "order") {
+    const order = interaction.options.get('food').value;
+    // interaction.reply({content:'Something ordered'});
+    await interaction.reply({content:`${order} was ordered`});
   }
 });
 
 async function main(){
   const commands = [
     {
-      name: 'ping',
-      description: 'Replies with Pong!',
+      name: 'order',
+      description: 'Order something...',
+      options: [
+        {
+          name: "food",
+          description: "type of food",
+          type: 3,
+          require: true,
+        }
+      ]
     }
   ];
   try {
