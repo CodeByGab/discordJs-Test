@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from "@discord.js/builders";
+import { SlashCommandBuilder } from '@discordjs/builders';
 
 const orderCommand = new SlashCommandBuilder()
     .setName('order')
@@ -25,7 +25,7 @@ const orderCommand = new SlashCommandBuilder()
         option
         .setName('drink')
         .setDescription('Select your favorite drink')
-        .setRequired(false)
+        .setRequired(true)
         .setChoices(
             {
             name: 'Guaraná antártica',
@@ -42,4 +42,4 @@ const orderCommand = new SlashCommandBuilder()
         )
     )
 
-export default orderCommand.toJSON();
+export default orderCommand;
