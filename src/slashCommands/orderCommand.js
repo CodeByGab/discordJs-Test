@@ -42,4 +42,4 @@ const orderCommand = new SlashCommandBuilder()
         )
     )
 
-export default orderCommand;
+export default orderCommand.toJSON();
