@@ -6,6 +6,8 @@ import rolesCommand from './slashCommands/rolesCommand.js';
 import nickCommand from './slashCommands/nickCommand.js';
 import proprioNickCommand from './slashCommands/proprioNickCommand.js';
 import proprioNickEmbed from './messageEmbed/proprioNickEmbed.js';
+import testRpgCommand from './slashCommands/testRpgCommand.js';
+import testRpgEmbed from './messageEmbed/testRpgEmbed.js';
 
 config();
 
@@ -59,7 +61,6 @@ client.on('interactionCreate', async (interaction) => {
     const nome = interaction.guild.members.cache.get(nomeId);
     const embedFuncionando = proprioNickEmbed(0x00FF00, 'novo', 'antigo');
     const embedErro = proprioNickEmbed(0xFF0000, 'novo', 'antigo');
-
     nome.setNickname(novoNick, 'nenhum')
       .then( async () => {
         await interaction.reply({
@@ -79,6 +80,35 @@ client.on('interactionCreate', async (interaction) => {
         })
       })
   }
+
+  if(interaction.commandName === "testsheet") {
+    const charName = 'Character Name';
+    
+    const skills = {
+      FOR: 4,
+      AGI: 1,
+      INT: 1,
+      VIG: 2,
+      PRE: 2,
+    }
+    const attributes = {
+      Acrobacia: 5, 
+      Atletismo: 5, 
+      Iniciativa: 10
+    }
+
+    // link to a friend's drawing
+    const tokenImg = 'https://imgur.com/7STkan9.png';
+
+    console.log(tokenImg)
+    const test = testRpgEmbed(0xFF0000, charName, tokenImg, 25, skills, attributes)
+    interaction.reply({
+      embeds: [
+        test
+      ]
+    })
+  }
+
 });
 
 async function main(){
@@ -87,7 +117,8 @@ async function main(){
     orderCommand, 
     rolesCommand, 
     nickCommand,
-    proprioNickCommand
+    proprioNickCommand,
+    testRpgCommand
   ];
 
   try {
