@@ -82,29 +82,58 @@ client.on('interactionCreate', async (interaction) => {
   }
 
   if(interaction.commandName === "testsheet") {
-    const charName = 'Character Name';
-    
-    const skills = {
-      FOR: 4,
-      AGI: 1,
-      INT: 1,
-      VIG: 2,
-      PRE: 2,
-    }
-    const attributes = {
-      Acrobacia: 5, 
-      Atletismo: 5, 
-      Iniciativa: 10
+
+    const characterSheet = {
+      name: 'Character Name',
+      img: 'https://imgur.com/7STkan9.png',
+      color: 0xFF0000,
+      skills: {
+        FOR: 4,
+        AGI: 1,
+        INT: 1,
+        VIG: 2,
+        PRE: 2,
+      },
+      attributes: {
+        Acrobacia: 5, 
+        Atletismo: 5, 
+        Iniciativa: 10
+      },
+      level: 25,
+      hp: {
+        atual: 70,
+        max: 100,
+      },
+      mana: {
+        atual: 70,
+        max: 100,
+      },
+      sanity: {
+        atual: 70,
+        max: 100,
+      },
     }
 
+    const charName = characterSheet.name;
     // link to a friend's drawing
-    const tokenImg = 'https://imgur.com/7STkan9.png';
+    const tokenImg = characterSheet.img;
+    const color = characterSheet.color;
+    const skills = characterSheet.skills;
+    const attributes = characterSheet.attributes;
+    const level = characterSheet.level;
 
     console.log(tokenImg)
-    const test = testRpgEmbed(0xFF0000, charName, tokenImg, 25, skills, attributes)
+    const sheetEmbed = testRpgEmbed(
+      charName, 
+      tokenImg, 
+      color, 
+      level, 
+      skills, 
+      attributes
+    )
     interaction.reply({
       embeds: [
-        test
+        sheetEmbed
       ]
     })
   }
