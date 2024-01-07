@@ -1,7 +1,11 @@
 import { config } from 'dotenv';
-import { Client, GatewayIntentBits, Routes } from 'discord.js';
+import { Client, GatewayIntentBits, InteractionCollector, Routes } from 'discord.js';
 import { REST } from '@discordjs/rest';
 import orderCommand from './slashCommands/orderCommand.js';
+import rolesCommand from './slashCommands/rolesCommand.js';
+import nickCommand from './slashCommands/nickCommand.js';
+import proprioNickCommand from './slashCommands/proprioNickCommand.js';
+import proprioNickEmbed from './messageEmbed/proprioNickEmbed.js';
 
 config();
 
@@ -25,21 +29,66 @@ client.on('messageCreate', (message) => {
   if(text.includes('teste')) message.reply('testado');
 });
 
-let data = '';
-
 client.on('interactionCreate', async (interaction) => {
-  if (!interaction.isChatInputCommand || interaction.isButton() ||interaction.isModalSubmit()) return;
+  if (!interaction.isChatInputCommand) return;
 
   if(interaction.commandName === 'order') {
     const food = interaction.options.get('food').value;
     const drink = interaction.options.get('drink').value;
     await interaction.reply({content:`${food} and ${drink} was ordered`});
   }
+
+  if(interaction.commandName === 'newnickuser') {
+
+    const newNick = interaction.options.getString('nickname');
+    const user = interaction.options.getUser('user');
+    const memberToChangeNick = interaction.guild.members.cache.get(user.id)
+    memberToChangeNick.setNickname(newNick, 'none')
+      .then( async () => {
+        await interaction.reply('it worked')
+      })
+      .catch( async (err) => {
+        await interaction.reply(err)
+      })
+  }
+
+  // doing this in portuguese to a friend understand
+  if(interaction.commandName === 'proprionick') {
+    const novoNick = interaction.options.getString('nick');
+    const nomeId = interaction.user.id;
+    const nome = interaction.guild.members.cache.get(nomeId);
+    const embedFuncionando = proprioNickEmbed(0x00FF00, 'novo', 'antigo');
+    const embedErro = proprioNickEmbed(0xFF0000, 'novo', 'antigo');
+
+    nome.setNickname(novoNick, 'nenhum')
+      .then( async () => {
+        await interaction.reply({
+          embeds: [
+            embedFuncionando
+          ],
+          ephemeral: true
+        })
+      })
+      .catch(async (err) => {
+        console.log(err)
+        await interaction.reply({
+          embeds: [
+            embedErro
+          ],   
+          ephemeral: true
+        })
+      })
+  }
 });
 
 async function main(){
 
-  const commands = [orderCommand.toJSON()];
+  const commands = [
+    orderCommand, 
+    rolesCommand, 
+    nickCommand,
+    proprioNickCommand
+  ];
 
   try {
     const commandsLength = commands.length
