@@ -1,13 +1,16 @@
 import { EmbedBuilder } from "@discordjs/builders";
 
-function testRpgEmbed(charName, img, color, level, skills, attributes){
+function testRpgEmbed(characterSheet){
     const testRpgEmbed = new EmbedBuilder()
-        .setTitle(charName)
-	    .setThumbnail(img)
-        .setColor(color)
-        .addFields({ name: 'NEX', value: `${level}% / Max PE ${level / 5}`})
-        .addFields({ name: 'Skills', value: formatSkills(skills)})
-        .addFields({ name: 'Attributes', value: formatAttributes(attributes)})
+        .setTitle(characterSheet.name)
+	    .setThumbnail(characterSheet.img)
+        .setColor(characterSheet.color)
+        .addFields(
+            { name: `NEX ${characterSheet.level}%:`, value: `Max PE ${characterSheet.level / 5}`},
+            // { name: 'Skills:', value: formatSkills(characterSheet.skills)},
+            { name: 'Attributes:', value: formatAttributes(characterSheet.attributes)},
+        )
+        .setImage(characterSheet.skills)
 
     return testRpgEmbed
 }

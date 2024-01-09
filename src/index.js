@@ -87,13 +87,6 @@ client.on('interactionCreate', async (interaction) => {
       name: 'Character Name',
       img: 'https://imgur.com/7STkan9.png',
       color: 0xFF0000,
-      skills: {
-        FOR: 4,
-        AGI: 1,
-        INT: 1,
-        VIG: 2,
-        PRE: 2,
-      },
       attributes: {
         Acrobacia: 5, 
         Atletismo: 5, 
@@ -112,6 +105,7 @@ client.on('interactionCreate', async (interaction) => {
         atual: 70,
         max: 100,
       },
+      skills: 'https://imgur.com/L7fKBgS.png'
     }
 
     const charName = characterSheet.name;
@@ -121,16 +115,8 @@ client.on('interactionCreate', async (interaction) => {
     const skills = characterSheet.skills;
     const attributes = characterSheet.attributes;
     const level = characterSheet.level;
-
-    console.log(tokenImg)
-    const sheetEmbed = testRpgEmbed(
-      charName, 
-      tokenImg, 
-      color, 
-      level, 
-      skills, 
-      attributes
-    )
+    
+    const sheetEmbed = testRpgEmbed(characterSheet);
     interaction.reply({
       embeds: [
         sheetEmbed
