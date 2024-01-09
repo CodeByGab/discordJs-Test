@@ -107,14 +107,6 @@ client.on('interactionCreate', async (interaction) => {
       },
       skills: 'https://imgur.com/L7fKBgS.png'
     }
-
-    const charName = characterSheet.name;
-    // link to a friend's drawing
-    const tokenImg = characterSheet.img;
-    const color = characterSheet.color;
-    const skills = characterSheet.skills;
-    const attributes = characterSheet.attributes;
-    const level = characterSheet.level;
     
     const sheetEmbed = testRpgEmbed(characterSheet);
     interaction.reply({
